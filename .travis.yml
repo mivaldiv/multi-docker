@@ -9,14 +9,14 @@ script:
   - docker run -e CI=true mivaldiv/react-test npm test
 
 after_success:
-  - docker build -t mivaldiv/multi-client ./client
-  - docker build -t mivaldiv/multi-nginx ./nginx
-  - docker build -t mivaldiv/multi-server ./server
-  - docker build -t mivaldiv/multi-worker ./worker
+  - docker build -t mivaldivia/multi-client ./client
+  - docker build -t mivaldivia/multi-nginx ./nginx
+  - docker build -t mivaldivia/multi-server ./server
+  - docker build -t mivaldivia/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push mivaldiv/multi-client
-  - docker push mivaldiv/multi-nginx
-  - docker push mivaldiv/multi-server
-  - docker push mivaldiv/multi-worker
+  - docker push mivaldivia/multi-client
+  - docker push mivaldivia/multi-nginx
+  - docker push mivaldivia/multi-server
+  - docker push mivaldivia/multi-worker
