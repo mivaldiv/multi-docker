@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t mivaldiv/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true mivaldiv/react-test npm test
+
+after_success:
+  - docker build -t mivaldiv/multi-client ./client
+  - docker build -t mivaldiv/multi-nginx ./nginx
+  - docker build -t mivaldiv/multi-server ./server
+  - docker build -t mivaldiv/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push mivaldiv/multi-client
+  - docker push mivaldiv/multi-nginx
+  - docker push mivaldiv/multi-server
+  - docker push mivaldiv/multi-worker
